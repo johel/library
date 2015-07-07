@@ -17,6 +17,20 @@ String.prototype.formatConfig = function (args) {
 console.log("Hello {name}".formatConfig({ name: 'World' })); // Hello World
 
 
+String.prototype.isIn = function() {
+  if(null==this) throw new Exception();
+  var palavra = this;
+  if(arguments.length === 0) return false;
+  var estaPresente = Array.prototype.filter.call(arguments, function(el) {
+      console.log(palavra);
+      return el == palavra;                                                                         
+  }).length > 0;
+  return estaPresente;
+};
+
+
+alert("this".isIn("this","that","these"));
+
 
 //Biblioteca já prontas
 //-> http://stringjs.com/
