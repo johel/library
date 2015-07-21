@@ -82,3 +82,97 @@ johelJr.falar();
 
 // var johel = new Pai();
 // johel.falar(); //erro
+
+
+
+//************Inherit method****************
+
+//Constructor Inheritance
+function inherit(subClass, superClass) {
+    subClass.prototype = Object.create(superClass.prototype, {
+        constructor: {
+        configurable: true,
+        enumerable: true,
+        value: subClass,
+        writable: true
+        }
+    });
+}
+// => subClass.prototype.__proto__ === superClass.prototype
+
+//Object Inheritance
+function inherit(copyObject, objectSrc) {
+    copyObject = Object.create(objectSrc);
+}
+// => copyObject.__proto__ === objectSrc
+
+
+//-----------------------------------------------------------------------------
+//Source Code: Pro Javascript Design Patterns
+//****Extend Method*****//
+ 
+/* Extend function. */
+
+function extend(subClass, superClass) {
+  var F = function() {};
+  F.prototype = superClass.prototype;
+  subClass.prototype = new F();
+  subClass.prototype.constructor = subClass;
+}
+
+
+/* Class Person. */
+
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.getName = function() {
+  return this.name;
+}
+
+/* Class Author. */
+
+function Author(name, books) {
+  Person.call(this, name);
+  this.books = books;
+}
+extend(Author, Person);
+
+Author.prototype.getBooks = function() {
+  return this.books;
+};
+
+
+
+/* Extend function, improved. */
+
+function extend(subClass, superClass) {
+  var F = function() {};
+  F.prototype = superClass.prototype;
+  subClass.prototype = new F();
+  subClass.prototype.constructor = subClass;
+
+  subClass.superclass = superClass.prototype;
+  if(superClass.prototype.constructor == Object.prototype.constructor) {
+    superClass.prototype.constructor = superClass;
+  }
+}
+
+
+/* Class Author. */
+
+function Author(name, books) {
+  Author.superclass.constructor.call(this, name);
+  this.books = books;
+}
+extend(Author, Person);
+
+Author.prototype.getBooks = function() {
+  return this.books;
+};
+
+Author.prototype.getName = function() {
+  var name = Author.superclass.getName.call(this);
+  return name + ', Author of ' + this.getBooks().join(', ');
+};

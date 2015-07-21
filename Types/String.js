@@ -2,34 +2,46 @@
  * Arquivo que lista todas as extensões customizadas do objeto nativo string no javascript
  */
 
-//source: http://stackoverflow.com/questions/1038746/equivalent-of-string-format-in-jquery
 
+(function () {
 
-String.prototype.formatConfig = function (args) {
-    var newStr = this;
-    for (var key in args) {
-        newStr = newStr.replace('{' + key + '}', args[key]);
-    }
-    return newStr;
-}
+	/**
+	 * Retorna a string chamadora do metodo, porem formatada:
+	 * source: http://stackoverflow.com/questions/1038746/equivalent-of-string-format-in-jquery
+	 * /example:
+		console.log("Hello {name}".formatConfig({ name: 'World' })); // Hello World
+	 * @param  {[object literal]} objeto key-value config
+	 * @return {[string]}
+	 */
+	function formatConfig(args) {
+	    var newStr = this;
+	    for (var key in args) {
+	        newStr = newStr.replace('{' + key + '}', args[key]);
+	    }
+	    return newStr;
+	}
 
-//example
-console.log("Hello {name}".formatConfig({ name: 'World' })); // Hello World
+	/**
+	 * [isIn description]
+	 * @return {Boolean} indica se o objeto chamador da funçao esta entre os argumentos passados a ela.
+	 * example:
+	 * // console.log("this".isIn("this","that","these")); // true
+	 */
+	function isIn(){
+		if(null==this) throw new Exception();
+  		var palavra = this;
+		if(arguments.length === 0) return false;
+		var estaPresente = Array.prototype.filter.call(arguments, function(el) {
+		    return el == palavra;  //nao pode ser ===, pois esta comparando primitive string com object string.                                                                       
+		  }).length > 0;
+  		return estaPresente;
+	}
 
+	String.prototype.isIn = isIn;
+	String.prototype.formatConfig  = formatConfig; 
 
-String.prototype.isIn = function() {
-  if(null==this) throw new Exception();
-  var palavra = this;
-  if(arguments.length === 0) return false;
-  var estaPresente = Array.prototype.filter.call(arguments, function(el) {
-      console.log(palavra);
-      return el == palavra;                                                                         
-  }).length > 0;
-  return estaPresente;
-};
+})();
 
-
-alert("this".isIn("this","that","these"));
 
 
 //Biblioteca já prontas

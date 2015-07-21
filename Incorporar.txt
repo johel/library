@@ -1,0 +1,9 @@
+Esse documento se propoe a indicar leituras, bibliotecas externas e APIs que possam ser incorporadas
+em futura formacao de uma biblioteca que possa ser utilizada para construcao de aplicativos javascrit;
+
+--Para enteder melhor alguns padroes adotados no server side
+http://spinejs.com/docs/commonjs
+
+--Para incorporar a funcionalidade require presente no NodeJs tambem ao desenvolvimento front end
+http://requirejs.org/
+
